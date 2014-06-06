@@ -1,4 +1,4 @@
-
+#include "router.h"
 
 using user::router;
 
@@ -6,7 +6,8 @@ using user::router;
 
 router::router( sc_module_name module_name) :
   sc_module( module_name ),
-  target_export("rport")
+  target_export("rport") ,
+  DM_port("DM_port", 5242880U)
 {
     /// Binds target_export to the memory
     target_export( *this );
