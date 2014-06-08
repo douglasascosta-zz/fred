@@ -29,6 +29,11 @@ using user::router;
 
 int sc_main(int ac, char *av[])
 {
+  int ac1, ac2;
+  char **av1, **av2;
+
+  ac1 = ac; ac2 = ac;
+  av1 = av; av2 = av;
 
   //!  ISA simulator
   mips1 mips1_proc1("mips1");
@@ -42,21 +47,26 @@ int sc_main(int ac, char *av[])
 #endif 
   mips1_proc1.DM_port(rout.target_export);
   //mips1_proc2.DM_port(rout.target_export);
+
   rout.DM_port(mem.target_export);
 
-  mips1_proc1.init(ac, av);
-  //mips1_proc2.init(ac, av);
+  mips1_proc1.init(ac1, av1);
+  //mips1_proc2.init(ac2, av2);
 
   cerr << endl;
 
   sc_start();
 
   mips1_proc1.PrintStat();
+  //mips1_proc2.PrintStat();
+
   cerr << endl;
 
 #ifdef AC_STATS
   mips1_proc1.ac_sim_stats.time = sc_simulation_time();
+  //mips1_proc2.ac_sim_stats.time = sc_simulation_time();
   mips1_proc1.ac_sim_stats.print();
+  //mips1_proc2.ac_sim_stats.print();
 #endif 
 
 #ifdef AC_DEBUG

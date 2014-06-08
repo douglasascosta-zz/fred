@@ -39,8 +39,9 @@ namespace user
       ac_tlm_rsp transport( const ac_tlm_req &request ) {
 
         ac_tlm_rsp response;
-        response = DM_port->transport(request);
-
+        if (request.addr < 5242880) {
+          response = DM_port->transport(request);
+        }
         return response;
       }
 
