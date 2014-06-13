@@ -36,7 +36,7 @@ namespace user
       ac_tlm_port wake_port;
       ac_tlm_port lock_port;
       ac_tlm_port offload_port;
-      sc_export< ac_tlm_transport_if > target_export1, target_export2;
+      sc_export< ac_tlm_transport_if > target_export1;
 
       /// Virtual function, must be implemented
       ac_tlm_rsp transport( const ac_tlm_req &request ) {

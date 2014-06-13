@@ -27,7 +27,7 @@ const char *archc_options="-abi -dy ";
 #include  "wake.h"
 #include  "offload.h"
 
-#define NUM_OF_PROCESSORS 2
+#define NUM_OF_PROCESSORS 1
 
 using user::ac_tlm_mem;
 using user::router;
@@ -42,11 +42,9 @@ int sc_main(int ac, char *av[])
 
   //!  ISA simulator
   mips1 mips1_proc1("mips1");
-  mips1 mips1_proc2("mips2");
 
   mips1 **procs = (mips1 **) malloc (NUM_OF_PROCESSORS * sizeof *procs);
   procs[0] = &mips1_proc1;
-  procs[1] = &mips1_proc2;  
 
 
   ac_tlm_mem mem("mem");
@@ -59,7 +57,6 @@ int sc_main(int ac, char *av[])
   ac_trace("mips1_proc1.trace");
 #endif 
   mips1_proc1.DM_port(rout.target_export1);
-  mips1_proc2.DM_port(rout.target_export2);
 
   rout.DM_port(mem.target_export);
   rout.lock_port(lk.target_export);
@@ -86,15 +83,12 @@ int sc_main(int ac, char *av[])
   sc_start();
 
   mips1_proc1.PrintStat();
-  //mips1_proc2.PrintStat();
 
   cerr << endl;
 
 #ifdef AC_STATS
   mips1_proc1.ac_sim_stats.time = sc_simulation_time();
-  //mips1_proc2.ac_sim_stats.time = sc_simulation_time();
   mips1_proc1.ac_sim_stats.print();
-  //mips1_proc2.ac_sim_stats.print();
 #endif 
 
 #ifdef AC_DEBUG

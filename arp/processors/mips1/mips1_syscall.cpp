@@ -40,6 +40,8 @@
 // mips1-specific datatypes
 using namespace mips1_parms;
 
+static int mem_delta = 0;
+
 void mips1_syscall::get_buffer(int argn, unsigned char* buf, unsigned int size)
 {
   unsigned int addr = RB[4+argn];
@@ -101,19 +103,21 @@ void mips1_syscall::set_prog_args(int argc, char **argv)
   }
 
   //Ajust %sp and write argument string
-  RB[29] = AC_RAM_END-512;
+  RB[29] = AC_RAM_END-512-mem_delta;
   set_buffer(25, (unsigned char*) ac_argstr, 512);   //$25 = $29(sp) - 4 (set_buffer adds 4)
 
   //Ajust %sp and write string pointers
-  RB[29] = AC_RAM_END-512-120;
+  RB[29] = AC_RAM_END-512-120-mem_delta;
   set_buffer_noinvert(25, (unsigned char*) ac_argv, 120);
 
   //Set %sp
-  RB[29] = AC_RAM_END-512-128;
+  RB[29] = AC_RAM_END-512-128-mem_delta;
 
   //Set %o0 to the argument count
   RB[4] = argc;
 
   //Set %o1 to the string pointers
   RB[5] = AC_RAM_END-512-120;
+
+  mem_delta += 65536;
 }
